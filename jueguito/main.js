@@ -6,14 +6,34 @@ canvas.height = 638
 
 can.fillRect(0, 0, canvas.width, canvas.height)
 
+let miAudio = new Audio();
+miAudio.src = "audio.mp3";
+miAudio.addEventListener('canplaythrough', function() {
+    miAudio.volume = 0.2;
+    miAudio.loop = true;
+    miAudio.play();
+}, false);
+
+miAudio.addEventListener('error', function(e) {
+    console.log("Error loading audio:", e);
+});
+
+document.body.appendChild(miAudio);
+
 const gravity = 0.7
 const background = new Sprite({
-    posicion:{x: 0, y: 0},
+    posicion: {
+        x: 0,
+        y: 0
+    },
     srcImage: './img/background.png'
 })
 
 const cat = new Sprite({
-    posicion:{x: 835, y: 541},
+    posicion: {
+        x: 835,
+        y: 541
+    },
     srcImage: './img/cat.png',
     scale: 2,
     framesMax: 4
@@ -21,13 +41,25 @@ const cat = new Sprite({
 
 const player1 = new Lucha({
     color: 'red',
-    posicion:{x: 300, y: 0},
-    veloz:{x: 0, y: 0},
-    offset: {x: 0, y: 0},
+    posicion: {
+        x: 300,
+        y: 0
+    },
+    veloz: {
+        x: 0,
+        y: 0
+    },
+    offset: {
+        x: 0,
+        y: 0
+    },
     srcImage: './img/ghostface/quieto.png',
     framesMax: 6,
     scale: 1.2,
-    offset: {x: 60, y: 83},
+    offset: {
+        x: 60,
+        y: 83
+    },
 
     sprites: {
         quieto: {
@@ -60,7 +92,10 @@ const player1 = new Lucha({
         },
     },
     attackBox: {
-        offset: {x: 50, y: 0},
+        offset: {
+            x: 50,
+            y: 0
+        },
         width: 80,
         height: 50
     }
@@ -69,14 +104,26 @@ player1.draw()
 
 const player2 = new Lucha({
     color: 'blue',
-    posicion:{x: 900, y: 100},
-    veloz:{x: 0, y: 0},
-    offset: {x: -50, y: 0},
+    posicion: {
+        x: 900,
+        y: 100
+    },
+    veloz: {
+        x: 0,
+        y: 0
+    },
+    offset: {
+        x: -50,
+        y: 0
+    },
     srcImage: './img/myers/quieto.png',
     framesMax: 6,
     scale: 1.2,
-    offset: {x: 100, y: 87},
-    
+    offset: {
+        x: 100,
+        y: 87
+    },
+
     sprites: {
         quieto: {
             srcImage: './img/myers/quieto.png',
@@ -106,28 +153,40 @@ const player2 = new Lucha({
             srcImage: './img/myers/death.png',
             framesMax: 6
         },
-        
     },
+
     attackBox: {
-        offset: {x: -30, y: 0},
+        offset: {
+            x: -30,
+            y: 0
+        },
         width: 80,
         height: 50
     }
 })
 player2.draw()
-console.log(player1)
 
 const keys = {
-    d:{pressed: false},
-    a:{pressed: false},
-    w:{pressed: false},
-    ArrowRight: {pressed: false},
-    ArrowLeft: {pressed: false}
+    d: {
+        pressed: false
+    },
+    a: {
+        pressed: false
+    },
+    w: {
+        pressed: false
+    },
+    ArrowRight: {
+        pressed: false
+    },
+    ArrowLeft: {
+        pressed: false
+    }
 }
 
 cuentaRegresiva()
 
-function animacion(){
+function animacion() {
     window.requestAnimationFrame(animacion)
     can.fillStyle = 'black'
     can.fillRect(0, 0, canvas.width, canvas.height)
@@ -138,112 +197,128 @@ function animacion(){
     player1.veloz.x = 0
     player2.veloz.x = 0
 
-    if(keys.a.pressed && player1.lastKey === 'a'){
-        player1.veloz.x = -3
+    if (keys.a.pressed && player1.lastKey === 'a') {
+        player1.veloz.x = -5
         player1.switchSprite('walk')
-    }else if(keys.d.pressed && player1.lastKey === 'd'){
-        player1.veloz.x = 3
+    } else if (keys.d.pressed && player1.lastKey === 'd') {
+        player1.veloz.x = 5
         player1.switchSprite('walk')
-    }else {player1.switchSprite('quieto')}
+    } else {
+        player1.switchSprite('quieto')
+    }
 
-    if(player1.veloz.y < 0){
+    if (player1.veloz.y < 0) {
         player1.switchSprite('jump')
-    }else if(player1.veloz.y > 0){
-        player1.switchSprite('fall')}
+    } else if (player1.veloz.y > 0) {
+        player1.switchSprite('fall')
+    }
 
-    if(keys.ArrowLeft.pressed && player2.lastKey === 'ArrowLeft'){
-        player2.veloz.x = -3
+    if (keys.ArrowLeft.pressed && player2.lastKey === 'ArrowLeft') {
+        player2.veloz.x = -5
         player2.switchSprite('walk')
-    }else if(keys.ArrowRight.pressed && player2.lastKey === 'ArrowRight'){
-        player2.veloz.x = 3
+    } else if (keys.ArrowRight.pressed && player2.lastKey === 'ArrowRight') {
+        player2.veloz.x = 5
         player2.switchSprite('walk')
-    }else {player2.switchSprite('quieto')}
+    } else {
+        player2.switchSprite('quieto')
+    }
 
-    if(player2.veloz.y < 0){
+    if (player2.veloz.y < 0) {
         player2.switchSprite('jump')
-    }else if(player2.veloz.y > 0){
-        player2.switchSprite('fall')}
-        
+    } else if (player2.veloz.y > 0) {
+        player2.switchSprite('fall')
+    }
 
-    if (colision({rectangle1: player1, rectangle2: player2 }) &&
-        player1.attacking && player1.framesCurrent === 2){
+    if (colision({ rectangle1: player1, rectangle2: player2 }) &&
+        player1.attacking && player1.framesCurrent === 2) {
         player2.hurt()
         player1.attacking = false
+        if (!player2.dead) {
+            score1 += 50;
+            document.querySelector('#score1').innerHTML = score1;
+        }
         document.querySelector('#p2Health').style.width = player2.health + '%'
     }
 
-    if(player1.attacking && player1.framesCurrent === 2){
-        player1.attacking = false}
+    if (player1.attacking && player1.framesCurrent === 2) {
+        player1.attacking = false
+    }
 
-    if (colision({rectangle1: player2, rectangle2: player1 }) &&
-        player2.attacking && player2.framesCurrent === 2){
+    if (colision({ rectangle1: player2, rectangle2: player1 }) &&
+        player2.attacking && player2.framesCurrent === 2) {
         player1.hurt()
         player2.attacking = false
+        if (!player1.daed) {
+            score2 += 50;
+            document.querySelector('#score2').innerHTML = score2;
+        }
         document.querySelector('#p1Health').style.width = player1.health + '%'
     }
 
-    if(player2.attacking && player2.framesCurrent === 2){
-        player2.attacking = false}
+    if (player2.attacking && player2.framesCurrent === 2) {
+        player2.attacking = false
+    }
 
-    if(player2.health <= 0 || player1.health <= 0){
-        ganador({player1, player2, relojId})}
+    if (player2.health <= 0 || player1.health <= 0) {
+        ganador({ player1, player2, relojId });
+    }
 }
 animacion()
 
 window.addEventListener('keydown', (event) => {
-    if(!player1.dead){
-        switch(event.key){
-            case 'd': 
-              keys.d.pressed = true
-              player1.lastKey = 'd'
-              break
-            case 'a': 
-              keys.a.pressed = true
-              player1.lastKey = 'a'
-              break
-            case 'w': 
-              player1.veloz.y = -12
-              break
+    if (!player1.dead) {
+        switch (event.key) {
+            case 'd':
+                keys.d.pressed = true
+                player1.lastKey = 'd'
+                break
+            case 'a':
+                keys.a.pressed = true
+                player1.lastKey = 'a'
+                break
+            case 'w':
+                player1.veloz.y = -12
+                break
             case 'e':
                 player1.attack()
                 break
         }
     }
 
-    if(!player2.dead){
-        switch(event.key){
-            case 'ArrowRight': 
-              keys.ArrowRight.pressed = true
-              player2.lastKey = 'ArrowRight'
-              break
-            case 'ArrowLeft': 
-              keys.ArrowLeft.pressed = true
-              player2.lastKey = 'ArrowLeft'
-              break
-            case 'ArrowUp': 
-              player2.veloz.y = -16
-              break
-            case 'p':
-              player2.attack()
-              break
+    if (!player2.dead) {
+        switch (event.key) {
+            case 'ArrowRight':
+                keys.ArrowRight.pressed = true
+                player2.lastKey = 'ArrowRight'
+                break
+            case 'ArrowLeft':
+                keys.ArrowLeft.pressed = true
+                player2.lastKey = 'ArrowLeft'
+                break
+            case 'ArrowUp':
+                player2.veloz.y = -12
+                break
+            case ' ':
+                player2.attack()
+                break
         }
     }
 })
 
 window.addEventListener('keyup', (event) => {
-    switch(event.key){
-        case 'd': 
-          keys.d.pressed = false
-          break
-        case 'a': 
-          keys.a.pressed = false
-          break
+    switch (event.key) {
+        case 'd':
+            keys.d.pressed = false
+            break
+        case 'a':
+            keys.a.pressed = false
+            break
 
-        case 'ArrowRight': 
-          keys.ArrowRight.pressed = false
-          break
-        case 'ArrowLeft': 
-          keys.ArrowLeft.pressed = false
-          break
+        case 'ArrowRight':
+            keys.ArrowRight.pressed = false
+            break
+        case 'ArrowLeft':
+            keys.ArrowLeft.pressed = false
+            break
     }
 })

@@ -23,20 +23,24 @@ class Sprite{
             this.posicion.x - this.offset.x, 
             this.posicion.y - this.offset.y, 
             (this.image.width / this.framesMax) * this.scale, 
-            this.image.height * this.scale)}
+            this.image.height * this.scale)
+    }
 
     animateFrames(){
         this.framesElapsed++
         if(this.framesElapsed % this.framesHold === 0){
             if(this.framesCurrent < this.framesMax - 1){
                 this.framesCurrent++
-            }else{this.framesCurrent = 0}
+            }else{
+                this.framesCurrent = 0
+            }
         }
     }
 
     update() {
         this.draw()
-        this.animateFrames()}
+        this.animateFrames()
+    }
 }
 
 class Lucha extends Sprite{
@@ -88,13 +92,15 @@ class Lucha extends Sprite{
 
     attack(){
         this.switchSprite('attack')
-        this.attacking = true}
+        this.attacking = true
+    }
 
     hurt(){
         this.health -= 5
         if(this.health <= 0){
             this.switchSprite('death')
-        }else this.switchSprite('hurt')}
+        }else this.switchSprite('hurt')
+    }
 
     switchSprite(sprite){
         if(this.image === this.sprites.death.image) {
@@ -108,44 +114,52 @@ class Lucha extends Sprite{
                 if(this.image !== this.sprites.quieto.image){
                     this.image = this.sprites.quieto.image
                     this.framesMax = this.sprites.quieto.framesMax
-                    this.framesCurrent = 0}
+                    this.framesCurrent = 0
+                }
                 break;
             case 'walk':
                 if(this.image !== this.sprites.walk.image){
                     this.image = this.sprites.walk.image
                     this.framesMax = this.sprites.walk.framesMax
-                    this.framesCurrent = 0}
+                    this.framesCurrent = 0
+                }
                 break;
             case 'jump':
                 if(this.image !== this.sprites.jump.image){
                     this.image = this.sprites.jump.image
                     this.framesMax = this.sprites.jump.framesMax
-                    this.framesCurrent = 0}
+                    this.framesCurrent = 0
+                }
                 break;
             case 'fall':
                 if(this.image !== this.sprites.fall.image){
                     this.image = this.sprites.fall.image
                     this.framesMax = this.sprites.fall.framesMax
-                    this.framesCurrent = 0}
+                    this.framesCurrent = 0
+                }
                 break;
             case 'attack':
                 if(this.image !== this.sprites.attack.image){
                     this.image = this.sprites.attack.image
                     this.framesMax = this.sprites.attack.framesMax
-                    this.framesCurrent = 0}
+                    this.framesCurrent = 0
+                }
                 break;
             case 'hurt':
                 if(this.image !== this.sprites.hurt.image){
                     this.image = this.sprites.hurt.image
                     this.framesMax = this.sprites.hurt.framesMax
-                    this.framesCurrent = 0}
+                    this.framesCurrent = 0
+                }
                 break;
             case 'death':
                 if(this.image !== this.sprites.death.image){
                     this.image = this.sprites.death.image
                     this.framesMax = this.sprites.death.framesMax
-                    this.framesCurrent = 0}
+                    this.framesCurrent = 0
+                }
                 break;
         }
     }
 }
+
