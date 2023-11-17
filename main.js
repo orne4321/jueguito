@@ -1,11 +1,24 @@
 const canvas = document.querySelector('canvas')
 const can = canvas.getContext('2d')
-paused = false
 
 canvas.width = 1281
 canvas.height = 638
 
 can.fillRect(0, 0, canvas.width, canvas.height)
+
+let miAudio = new Audio();
+miAudio.src = "audio.mp3";
+miAudio.addEventListener('canplaythrough', function () {
+    miAudio.volume = 0.2;
+    miAudio.loop = true;
+    miAudio.play(); // You may need to add this line if you want the audio to start playing immediately.
+  }, false);
+  
+  miAudio.addEventListener('error', function (e) {
+    console.log("Error loading audio:", e);
+  });
+  
+  document.body.appendChild(miAudio); 
 
 const gravity = 0.7
 const background = new Sprite({
